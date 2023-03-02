@@ -1,0 +1,181 @@
+﻿@model PaginatedList<EicOpenDataViewer.Models.PublicBuilding>
+<h3>Energy Performance Certificates - Display (public buildings) certificates search</h3>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+
+    <div class="form-group">
+    <label for="options">Select any one of the listed attributes to search and filter property-level open data on Energy Performance of buildings </label>
+    
+        <select name="selectedValue" id="options" >
+        
+            @foreach (var criteria in FilterCriterias.Criterias)
+            {
+                <option value="@criteria.Code"> @criteria.Name </option>
+            }
+        </select>
+    </div>
+    <p>
+        Filter attribute value: @Html.TextBox("SearchString", ViewBag.CurrentFilterString as string)
+        <input type="submit" value="Filter" />
+    </p>
+
+}
+
+
+@if (Model != null && Model.Count > 0)
+{
+    <h3>Filter Results</h3>
+    <table cellspacing="20px">
+        @if (Model.HasPreviousPage)
+        {
+            <tr>
+
+                <td>@Html.ActionLink("<<< Previous Page", "Index", new { selectedValue = ViewBag.CurrentFilterCriteria, searchString = ViewBag.CurrentFilterString, previousFilter = ViewBag.PreviousFilterString, page = Model.PageIndex - 1 })</td>
+
+            </tr>
+        }
+        @if (Model.HasNextPage)
+        {
+            <tr>
+
+                <td>@Html.ActionLink("Next Page >>>", "Index", new { selectedValue = ViewBag.CurrentFilterCriteria, searchString = ViewBag.CurrentFilterString, previousFilter = ViewBag.PreviousFilterString, page = Model.PageIndex + 1 })</td>
+
+        </tr>
+        }
+    </table>
+    <br/>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th></th>
+                <th>LmkKey</th>
+                <th>Yr2RenewablesCo2</th>
+                <th>Address</th>
+                <th>Address1</th>
+                <th>Address2</th>
+                <th>Posttown</th>
+                <th>County</th>
+                <th>Postcode</th>
+                <th>Constituency</th>
+                <th>AirconPresent</th>
+                <th>UprnSource</th>
+                <th>Yr1RenewablesCo2</th>
+                <th>AnnualElectricalFuelUsage</th>
+                <th>BuildingEnvironment</th>
+                <th>HeatingCo2</th>
+                <th>Yr2OperationalRating</th>
+                <th>Yr1ElectricityCo2</th>
+                <th>Address3</th>
+                <th>Yr1OperationalRating</th>
+                <th>MainBenchmark</th>
+                <th>Yr2HeatingCo2</th>
+                <th>OccupancyLevel</th>
+                <th>PropertyType</th>
+                <th>LocalAuthorityLabel</th>
+                <th>RenewablesElectrical</th>
+                <th>OrAssessmentEndDate</th>
+                <th>MainHeatingFuel</th>
+                <th>Yr1HeatingCo2</th>
+                <th>LocalAuthority</th>
+                <th>AirconKwRating</th>
+                <th>EstimatedAirconKwRating</th>
+                <th>InspectionDate</th>
+                <th>ConstituencyLabel</th>
+                <th>RenewableSources</th>
+                <th>TotalFloorArea</th>
+                <th>BuildingReferenceNumber</th>
+                <th>OperationalRatingBand</th>
+                <th>OtherFuel</th>
+                <th>TypicalElectricalFuelUsage</th>
+                <th>SpecialEnergyUses</th>
+                <th>LodgementDatetime</th>
+                <th>TypicalThermalFuelUsage</th>
+                <th>CurrentOperationalRating</th>
+                <th>Uprn</th>
+                <th>AnnualThermalFuelUsage</th>
+                <th>NominatedDate</th>
+                <th>LodgementDate</th>
+                
+                <th>RenewablesCo2</th>
+                <th>RenewablesFuelThermal</th>
+                <th>Yr2ElectricityCo2</th>
+                <th>AcInspectionCommissioned</th>
+                <th>ElectricCo2</th>
+                <th>BuildingCategory</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("See Recommendation", "Recommendation", new { lmkkey=r.LmkKey }) 
+                    </td>
+                    <td>@r.LmkKey</td>
+                    <td>@r.Yr2RenewablesCo2</td>
+                    <td>@r.Address</td>
+                    <td>@r.Address1</td>
+                    <td>@r.Address2</td>
+                    <td>@r.Posttown</td>
+                    <td>@r.County</td>
+                    <td>@r.Postcode</td>
+                    <td>@r.Constituency</td>
+                    <td>@r.AirconPresent</td>
+                    <td>@r.UprnSource</td>
+                    <td>@r.Yr1RenewablesCo2</td>
+                    <td>@r.AnnualElectricalFuelUsage</td>
+                    <td>@r.BuildingEnvironment</td>
+                    <td>@r.HeatingCo2</td>
+                    <td>@r.Yr2OperationalRating</td>
+                    <td>@r.Yr1ElectricityCo2</td>
+                    <td>@r.Address3</td>
+                    <td>@r.Yr1OperationalRating</td>
+                    <td>@r.MainBenchmark</td>
+                    <td>@r.Yr2HeatingCo2</td>
+                    <td>@r.OccupancyLevel</td>
+                    <td>@r.PropertyType</td>
+                    <td>@r.LocalAuthorityLabel</td>
+                    <td>@r.RenewablesElectrical</td>
+                    <td>@r.OrAssessmentEndDate</td>
+                    <td>@r.MainHeatingFuel</td>
+                    <td>@r.Yr1HeatingCo2</td>
+                    <td>@r.LocalAuthority</td>
+                    <td>@r.AirconKwRating</td>
+                    <td>@r.EstimatedAirconKwRating</td>
+                    <td>@r.InspectionDate</td>
+                    <td>@r.ConstituencyLabel</td>
+                    <td>@r.RenewableSources</td>
+                    <td>@r.TotalFloorArea</td>
+                    <td>@r.BuildingReferenceNumber</td>
+                    <td>@r.OperationalRatingBand</td>
+                    <td>@r.OtherFuel</td>
+                    <td>@r.TypicalElectricalFuelUsage</td>
+                    <td>@r.SpecialEnergyUses</td>
+                    <td>@r.LodgementDatetime</td>
+                    <td>@r.TypicalThermalFuelUsage</td>
+                    <td>@r.CurrentOperationalRating</td>
+                    <td>@r.Uprn</td>
+                    <td>@r.AnnualThermalFuelUsage</td>
+                    <td>@r.NominatedDate</td>
+                    <td>@r.LodgementDate</td>
+                    
+                    <td>@r.RenewablesCo2</td>
+                    <td>@r.RenewablesFuelThermal</td>
+                    <td>@r.Yr2ElectricityCo2</td>
+                    <td>@r.AcInspectionCommissioned</td>
+                    <td>@r.ElectricCo2</td>
+                    <td>@r.BuildingCategory</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+  
+
+    
+
+    
+
+
+}
