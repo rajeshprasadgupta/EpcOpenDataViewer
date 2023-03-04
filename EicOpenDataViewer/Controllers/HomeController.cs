@@ -1,4 +1,5 @@
-﻿using EicOpenDataViewer.Models;
+﻿using EicOpenDataViewer.Filters;
+using EicOpenDataViewer.Models;
 using EicOpenDataViewer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -24,6 +25,7 @@ namespace EicOpenDataViewer.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(CustomExceptionFilter))]
         public async Task<IActionResult> Index(string selectedValue, string searchString, string previousFilter, int page = 1)
         {
             if (previousFilter == null)
@@ -46,6 +48,8 @@ namespace EicOpenDataViewer.Controllers
         }
 
         [HttpGet]
+        [HttpGet]
+        [TypeFilter(typeof(CustomExceptionFilter))]
         public async Task<IActionResult> Recommendation(string lmkkey)
         {
 

@@ -39,15 +39,19 @@ namespace EicOpenDataViewer.Services
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", _apiKey);
+            Recommendations recommendations = new Recommendations();
             var httpClient = _httpClientFactory.CreateClient();
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
-            Recommendations recommendations = new Recommendations();
+            if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("The app is not authorized to access APIs of epc.opendatacommunities.org. Please validate api key");
+            }
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var contentString =
                     await httpResponseMessage.Content.ReadAsStringAsync();
                 if (contentString != "Resource not found.")
-                recommendations = JsonConvert.DeserializeObject<Recommendations>(contentString);
+                    recommendations = JsonConvert.DeserializeObject<Recommendations>(contentString);
             }
             return recommendations;
         }
@@ -59,12 +63,16 @@ namespace EicOpenDataViewer.Services
             string pageQuery = $"&size={_pageSize}&from={fromPosition}";
             string subquery = searchCriteria + "=" + filter + pageQuery;
             var url = _filterUrl + subquery;
+            PublicBuildings buildings = new PublicBuildings();
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", _apiKey);
             var httpClient = _httpClientFactory.CreateClient();
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
-            PublicBuildings buildings = new PublicBuildings();
+            if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("The app is not authorized to access APIs of epc.opendatacommunities.org. Please validate api key");
+            }
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var contentString =
