@@ -48,7 +48,6 @@ namespace EicOpenDataViewer.Controllers
         }
 
         [HttpGet]
-        [HttpGet]
         [TypeFilter(typeof(CustomExceptionFilter))]
         public async Task<IActionResult> Recommendation(string lmkkey)
         {
